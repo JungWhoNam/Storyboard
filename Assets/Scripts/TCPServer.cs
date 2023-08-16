@@ -49,7 +49,7 @@ public class TCPServer : MonoBehaviour
 			tcpListener = new TcpListener(IPAddress.Parse("127.0.0.1"), 8888);
 			tcpListener.Start();
 			Debug.Log("Server is listening");
-			Byte[] bytes = new Byte[1024];
+			Byte[] bytes = new Byte[2048]; // 1024
 			while (true)
 			{
 				using (connectedTcpClient = tcpListener.AcceptTcpClient())
@@ -75,7 +75,7 @@ public class TCPServer : MonoBehaviour
 		}
 		catch (SocketException socketException)
 		{
-			Debug.Log("SocketException " + socketException.ToString());
+			Debug.LogWarning("SocketException " + socketException.ToString());
 		}
 	}
 
@@ -100,7 +100,7 @@ public class TCPServer : MonoBehaviour
 				byte[] serverMessageAsByteArray = Encoding.ASCII.GetBytes(msg);
 				// Write byte array to socketConnection stream.               
 				stream.Write(serverMessageAsByteArray, 0, serverMessageAsByteArray.Length);
-				Debug.Log("Server sent his message - should be received by client");
+				//Debug.Log("Server sent his message - should be received by client");
 			}
 		}
 		catch (SocketException socketException)
