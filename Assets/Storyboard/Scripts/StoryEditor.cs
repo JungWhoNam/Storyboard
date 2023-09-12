@@ -1,5 +1,6 @@
 using System.IO;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ namespace VMail
 {
     public class StoryEditor : MonoBehaviour
     {
+        public static string Author = "Bob";
+
         [SerializeField]
         private Story story;
         [SerializeField]
@@ -14,6 +17,9 @@ namespace VMail
 
         [SerializeField]
         private StateManager stateManager;
+
+        [Header("Viewers")]
+        public Viewer.ViewerComment viewerComments;
 
 
         public Story GetCurrentStory()
@@ -113,10 +119,16 @@ namespace VMail
                 else if (t.amt > (1f - threshold)) p = t.to;
 
                 stateManager.SendReqestUpdate(p);
+
+                if (viewerComments != null)
+                    viewerComments.SetState(p);
             }
             else // a transition mode
             {
                 stateManager.SendReqestUpdate(t);
+
+                if (viewerComments != null)
+                    viewerComments.SetState(t);
             }
         }
 
