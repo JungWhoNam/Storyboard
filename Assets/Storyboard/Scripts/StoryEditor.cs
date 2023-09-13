@@ -20,6 +20,7 @@ namespace VMail
 
         [Header("Viewers")]
         public Viewer.ViewerComment viewerComments;
+        public Viewer.ViewerAlphaBlendPages viewerCurrPage;
 
 
         public Story GetCurrentStory()
@@ -122,6 +123,8 @@ namespace VMail
 
                 if (viewerComments != null)
                     viewerComments.SetState(p);
+                if (viewerCurrPage != null)
+                    viewerCurrPage.SetState(p);
             }
             else // a transition mode
             {
@@ -129,6 +132,8 @@ namespace VMail
 
                 if (viewerComments != null)
                     viewerComments.SetState(t);
+                if (viewerCurrPage != null)
+                    viewerCurrPage.SetState(t);
             }
         }
 
@@ -204,8 +209,12 @@ namespace VMail
                 Page page = story.pages[i];
 
                 // save the json
-                string fPath = Path.Combine(dirPath, i + ".json");
+                string fPath = Path.Combine(dirPath, i + "-view.json");
                 Utils.Tools.SaveJsonFile(fPath, page.viewInfo.ToString());
+
+                // save the json for comments
+                string fPathComments = Path.Combine(dirPath, i + "-comments.json");
+                Utils.Tools.SaveJsonFile(fPathComments, JsonConvert.SerializeObject(page.comments, Formatting.Indented));
 
                 // save the image
                 string imgPath = Path.Combine(dirPath, i + ".png");
@@ -224,15 +233,16 @@ namespace VMail
             int cnt = 0;
             while (true)
             {
-                string jsonPath = Path.Combine(dirPath, cnt + ".json");
+                string jsonPath = Path.Combine(dirPath, cnt + "-view.json");
+                string jsonPathComments = Path.Combine(dirPath, cnt + "-comments.json");
                 string imgPath = Path.Combine(dirPath, cnt + ".png");
 
-                if (!File.Exists(jsonPath) || !File.Exists(imgPath))
+                if (!File.Exists(jsonPath) || !File.Exists(jsonPathComments)|| !File.Exists(imgPath) )
                     break;
 
                 jsons.Add(JObject.Parse(File.ReadAllText(jsonPath)));
                 images.Add(Utils.Tools.LoadTexture2D(imgPath));
-                comments.Add(new List<(string, string)>());
+                comments.Add(JsonConvert.DeserializeObject<List<(string, string)>>(File.ReadAllText(jsonPathComments)));
 
                 cnt += 1;
             }
