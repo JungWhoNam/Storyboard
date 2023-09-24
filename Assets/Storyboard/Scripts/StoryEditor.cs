@@ -194,7 +194,7 @@ namespace VMail
             UpdateMessagePlayer();
         }
 
-        public void Save(string dirPath)
+        public void RemoveAndSave(string dirPath)
         {
             if (story == null || story.pages.Count <= 0) return;
 
@@ -220,6 +220,10 @@ namespace VMail
                 string imgPath = Path.Combine(dirPath, i + ".png");
                 Utils.Tools.SaveTexture2D(imgPath, page.GetImage());
             }
+
+            // save the index.html
+            string src = Path.Combine(Application.streamingAssetsPath, "Storyboard", "index.html");
+            File.Copy(src, dirPath + "/index.html");
 
             story.SetDirPath(dirPath);
         }

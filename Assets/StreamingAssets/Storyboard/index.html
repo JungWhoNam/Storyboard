@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width">
+	<style>
+	.button {
+	  background-color: #008CBA;
+	  border: none;
+	  color: white;
+	  padding: 15px 32px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 16px;
+	  margin: 4px 2px;
+	  cursor: pointer;
+	}
+	</style>
+</head>
+
+<body>
+    <img id="snapshot" src="0.png" alt="The view does not exist in the story.">
+	
+	<div id="buttons"> </div>
+	
+	<script type="text/javascript">
+    	const pathName = window.location.pathname;
+        const path = pathName.substring(0, pathName.lastIndexOf("/"));
+        const directoryName = path.substring(path.lastIndexOf("/")+1);
+        
+        const formData = new FormData();
+        formData.append('ID', directoryName);
+        
+        fetch("../../GetNumOfSnapshots.php",
+        {
+            method: "POST",
+            body: formData,
+        })
+        .then(function (response) { 
+            // the API call was successful
+            return response.json();
+        })
+        .then(function (data) {
+            // the API call was successful
+            addButtons(data);
+        }).catch(function (err) {
+            // There was an error
+            console.warn('Something went wrong.', err);
+        });
+
+        function addButtons(cnt) {
+            let container = document.getElementById('buttons');
+
+            for (let i = 0; i < cnt; i++) {
+                // create a button
+                let btn = document.createElement('button');
+                btn.className = "button";
+                btn.type = "button";
+                btn.innerHTML = i;
+                btn.onclick = function() {
+                    let img = document.getElementById('snapshot');
+                    img.src = i + ".png";
+                };
+                
+                // add the button to div
+                container.appendChild(btn);
+            }
+        }
+	</script>
+</body>
+
+</html>
