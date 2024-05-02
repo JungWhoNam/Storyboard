@@ -108,5 +108,9 @@ namespace VMail
             }
         }
 
+        private void OnDestroy()
+        {
+            tcpListenerThread.Abort();
+        }
     }
 }
