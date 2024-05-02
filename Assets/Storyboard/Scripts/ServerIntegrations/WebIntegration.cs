@@ -11,7 +11,7 @@ namespace VMail.Utils.Web
 {
     public class WebIntegration : MonoBehaviour
     {
-        public static readonly string ServerURL = "INSERT!!!/"; // Make sure to put "/" at the end.
+        public static readonly string ServerURL = "http://localhost/"; // Make sure to put "/" at the end.
         public static readonly string ServerDataDir = "data/"; // Make sure to put "/" at the end.
 
         [SerializeField]
