@@ -1,5 +1,5 @@
 # V-Mail Unity client for OSPRay Studio 
-> This project is part of a larger project called [Immersive OSPray](https://github.com/jungwhonam/ImmersiveOSPRay) and [Visualization Mail (V-Mail)](https://github.com/JungWhoNam/VisualizationMail).
+> This project is part of a larger project called [Immersive OSPRay Studio](https://github.com/jungwhonam/ImmersiveOSPRay) and [Visualization Mail (V-Mail)](https://github.com/JungWhoNam/VisualizationMail).
 
  ## Overview
 ![V-Mail with OSPRay Studio](storyboard.png)
